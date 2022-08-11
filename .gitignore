@@ -290,8 +290,10 @@ $RECYCLE.BIN/
 ### Custom rules ###
 ####################
 
-### Molecule ### 
+### Molecule ###
 
 __pycache__
 .cache
 .molecule
+
+.idea

@@ -22,7 +22,7 @@ before_script:
 molecule:
   stage: test
   script:
-    - molecule test
+    - molecule test -s docker
 
 rebuild-awx-rt:
   stage: downstream

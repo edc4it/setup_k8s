@@ -1,7 +1,1 @@
----
-- name: Converge
-  hosts: all
-  tasks:
-   - name:
-     ansible.builtin.import_role:
-       name: ansible_role_minikube
+../default/converge.yml

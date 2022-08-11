@@ -1,4 +1,7 @@
 ---
+# Directory to store files downloaded for Minikube
+minikube_download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
+
 # Dir where Minikube should be installed
 minikube_install_dir: '/usr/local/bin'
 

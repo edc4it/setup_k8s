@@ -1,45 +1,45 @@
 - name: install kubectl
   ansible.builtin.get_url:
       dest: /usr/local/bin/kubectl
-      url: "https://storage.googleapis.com/kubernetes-release/release/{{ utilities.kubectl_version }}/bin/linux/amd64/kubectl"
+      url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
       mode: 0755
-  when:  utilities.kubectl_version is defined
+  when:  kubectl_version is defined
 
 - name: install kubens
   ansible.builtin.unarchive:
     dest: /usr/local/bin
-    src: "https://github.com/ahmetb/kubectx/releases/download/{{ utilities.kubens_version }}/kubens_{{ utilities.kubens_version }}_linux_x86_64.tar.gz"
+    src: "https://github.com/ahmetb/kubectx/releases/download/{{ kubens_version }}/kubens_{{ kubens_version }}_linux_x86_64.tar.gz"
     include: kubens
     remote_src: yes
     creates: /usr/local/bin/kubens
-  when:  utilities.kubens_version is defined
+  when:  kubens_version is defined
 
 - name: install k9s
   ansible.builtin.unarchive:
-      src: "https://github.com/derailed/k9s/releases/download/{{ utilities.k9s_version }}/k9s_Linux_x86_64.tar.gz"
+      src: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_x86_64.tar.gz"
       dest: /usr/local/bin
       remote_src: yes
       include: k9s
       creates: /usr/local/bin/k9s
-  when: utilities.k9s_version is defined
+  when: k9s_version is defined
 
 - name: install kubectx
   ansible.builtin.unarchive:
     dest: /usr/local/bin
-    src: "https://github.com/ahmetb/kubectx/releases/download/{{ utilities.kubectx_version }}/kubectx_{{ utilities.kubectx_version }}_linux_x86_64.tar.gz"
+    src: "https://github.com/ahmetb/kubectx/releases/download/{{ kubectx_version }}/kubectx_{{ kubectx_version }}_linux_x86_64.tar.gz"
     include: kubectx
     remote_src: yes
     creates: /usr/local/bin/kubectx
-  when:  utilities.kubectx_version is defined
+  when:  kubectx_version is defined
 
 - name: install kube-score
   ansible.builtin.unarchive:
       dest: /usr/local/bin
-      src: "https://github.com/zegl/kube-score/releases/download/v{{ utilities.kube_score_version }}/kube-score_{{ utilities.kube_score_version }}_linux_amd64.tar.gz"
+      src: "https://github.com/zegl/kube-score/releases/download/v{{ kube_score_version }}/kube-score_{{ kube_score_version }}_linux_amd64.tar.gz"
       include: kube-score
       remote_src: yes
       creates: /usr/local/bin/kube-score
-  when: utilities.kube_score_version is defined
+  when: kube_score_version is defined
 
 - name: install kubectl_aliases
   block:
@@ -55,18 +55,18 @@
 
     - name: install kubectl_aliases
       ansible.builtin.get_url:
-          url: "https://raw.githubusercontent.com/ahmetb/kubectl-aliases/{{ utilities.kubectl_aliases_branch }}/.kubectl_aliases"
+          url: "https://raw.githubusercontent.com/ahmetb/kubectl-aliases/{{ kubectl_aliases_branch }}/.kubectl_aliases"
           dest: "{{ user_info.home }}/.kubectl_aliases"
           owner: "{{ user }}"
           group: "{{ user }}"
           mode: 0600
       when: not kubectl_aliases_stat.stat.exists
-  when: utilities.kubectl_aliases_branch is defined
+  when: kubectl_aliases_branch is defined
 
 
 - name: Install helm
   ansible.builtin.include_role:
     name: gantsign.helm
   vars:
-    helm_version: "{{ utilities.helm_version }}"
-  when: utilities.helm_version is defined
+    helm_version: "{{ helm3_version }}"
+  when: helm3_version is defined

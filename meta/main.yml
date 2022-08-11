@@ -1,7 +1,7 @@
 ---
 galaxy_info:
-  author: John Freeman
-  role_name: setup-k8s
+  author: Raphaël Parrée
+  role_name: setup_k8s
   namespace: edc4it
   description: Install role for k8s resources. Based on John Freeman's minikube Ansible role
   company: edc4it

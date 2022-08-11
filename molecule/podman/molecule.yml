@@ -1,0 +1,21 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+lint: |
+  set -e
+  yamllint .
+  ansible-lint
+
+platforms:
+  - name: ansible_role_minikube_default
+    image: quay.io/centos/centos:stream8
+
+provisioner:
+  name: ansible
+
+verifier:
+  name: testinfra

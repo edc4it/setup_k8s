@@ -4,4 +4,6 @@
   tasks:
    - name:
      ansible.builtin.import_role:
-       name: ansible_role_minikube
+       name: edc4it.setup_k8s
+     vars:
+       user: root

@@ -15,7 +15,7 @@ before_script:
     musl-dev libffi-dev openssl-dev openssh
   - docker info
   - python3 --version
-  - python3 -m pip install ansible molecule[docker] ansible-lint yamllint
+  - python3 -m pip install ansible molecule[docker] ansible-lint yamllint testinfra
   - ansible --version
   - molecule --version
 

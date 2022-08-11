@@ -4,7 +4,7 @@
   include_tasks: minikube.yml
   tags:
     - minikube
-  when: minikube_version is defined
+  when: minikube_version != "disabled"
 
 - name: install tools and utilities
   import_tasks: utilities.yaml

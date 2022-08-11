@@ -5,7 +5,7 @@ k8s_version: "v1.24.3"
 
 user: "student"
 
-# when a key is undefined, it won't be installed
+# use a value of "disabled" to skip installation
 minikube_version: '1.26.1'
 kubectl_version: "{{ k8s_version }}"
 kubectx_version: "v0.9.4"

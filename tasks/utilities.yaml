@@ -3,7 +3,7 @@
       dest: /usr/local/bin/kubectl
       url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
       mode: 0755
-  when:  kubectl_version is defined
+  when:  kubectl_version != "disabled"
 
 - name: install kubens
   ansible.builtin.unarchive:
@@ -12,7 +12,7 @@
     include: kubens
     remote_src: yes
     creates: /usr/local/bin/kubens
-  when:  kubens_version is defined
+  when:  kubens_version != "disabled"
 
 - name: install k9s
   ansible.builtin.unarchive:
@@ -21,7 +21,7 @@
       remote_src: yes
       include: k9s
       creates: /usr/local/bin/k9s
-  when: k9s_version is defined
+  when: k9s_version != "disabled"
 
 - name: install kubectx
   ansible.builtin.unarchive:
@@ -30,7 +30,7 @@
     include: kubectx
     remote_src: yes
     creates: /usr/local/bin/kubectx
-  when:  kubectx_version is defined
+  when:  kubectx_version != "disabled"
 
 - name: install kube-score
   ansible.builtin.unarchive:
@@ -39,7 +39,7 @@
       include: kube-score
       remote_src: yes
       creates: /usr/local/bin/kube-score
-  when: kube_score_version is defined
+  when: kube_score_version != "disabled"
 
 - name: install kubectl_aliases
   block:
@@ -61,7 +61,7 @@
           group: "{{ user }}"
           mode: 0600
       when: not kubectl_aliases_stat.stat.exists
-  when: kubectl_aliases_branch is defined
+  when: kubectl_aliases_branch != "disabled"
 
 
 - name: Install helm
@@ -69,4 +69,4 @@
     name: gantsign.helm
   vars:
     helm_version: "{{ helm3_version }}"
-  when: helm3_version is defined
+  when: helm3_version != "disabled"

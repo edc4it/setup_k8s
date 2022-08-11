@@ -7,3 +7,4 @@
        name: edc4it.setup_k8s
      vars:
        user: root
+       kubectl_version: "disabled"

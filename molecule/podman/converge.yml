@@ -3,5 +3,5 @@
   hosts: all
   tasks:
    - name:
-     ansible.builtin.include_role:
+     ansible.builtin.import_role:
        name: ansible_role_minikube

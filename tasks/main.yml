@@ -48,3 +48,15 @@
     owner: root
     group: root
     mode: 'u=rwx,go=rx'
+
+- name: freeze k8s version
+  ansible.builtin.command: minikube config set kubernetes-version {{ k8s_version }}
+  when: k8s_version is defined
+  tags:
+    - molecule-idempotence-notest
+  become_user: "{{ user }}"
+
+- name: install tools and utilities
+  import_tasks: utilities.yaml
+  tags:
+    - utilities

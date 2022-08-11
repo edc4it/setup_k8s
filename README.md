@@ -60,6 +60,21 @@ minikube_version: '1.26.1'
 
 # Directory to store files downloaded for Minikube
 minikube_download_dir: "{{ x_ansible_download_dir | default(ansible_env.HOME + '/.ansible/tmp/downloads') }}"
+
+# Kubernetes version (used for kubectl)
+k8s_version: "v1.24.3"
+
+user: "root"
+
+# when a key is undefined, it won't be installed
+utilities:
+    kubectl_version: "{{ k8s_version }}"
+    kubectx_version: "v0.9.4"
+    kubens_version: "v0.9.4"
+    kubectl_aliases_branch: "master"
+    helm_version: '3.9.2'
+    k9s_version: "v0.26.3"
+    kube_score_version: "1.14.0"
 ```
 
 Example Playbook

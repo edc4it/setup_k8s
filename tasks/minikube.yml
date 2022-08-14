@@ -48,7 +48,7 @@
     group: root
     mode: 'u=rwx,go=rx'
 
-- name: freeze k8s version
+- name: "freeze k8s version to {{ k8s_version }}"
   ansible.builtin.shell: minikube config set kubernetes-version {{ k8s_version }}
   when: k8s_version != "disabled"
   become_user: "{{ user }}"

@@ -49,8 +49,6 @@
     mode: 'u=rwx,go=rx'
 
 - name: freeze k8s version
-  ansible.builtin.command: minikube config set kubernetes-version {{ k8s_version }}
+  ansible.builtin.shell: minikube config set kubernetes-version {{ k8s_version }}
   when: k8s_version != "disabled"
-  tags:
-    - molecule-idempotence-notest
   become_user: "{{ user }}"

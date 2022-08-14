@@ -52,3 +52,5 @@
   ansible.builtin.shell: minikube config set kubernetes-version {{ k8s_version }}
   when: k8s_version != "disabled"
   become_user: "{{ user }}"
+  tags:
+    - molecule-idempotence-notest

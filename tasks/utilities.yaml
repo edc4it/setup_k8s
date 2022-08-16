@@ -41,6 +41,15 @@
       creates: /usr/local/bin/kube-score
   when: kube_score_version != "disabled"
 
+- name: install kubeval
+  ansible.builtin.unarchive:
+      dest: /usr/local/bin
+      src: "https://github.com/instrumenta/kubeval/releases/download/{{ kubeval_version }}/kubeval-linux-amd64.tar.gz"      
+      include: kubeval
+      remote_src: yes
+      creates: /usr/local/bin/kubeval
+  when: kubeval_version != "disabled"
+
 - name: install kubectl_aliases
   block:
     - name: "Get {{ user }} info"

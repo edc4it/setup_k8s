@@ -16,6 +16,13 @@ platforms:
 
 provisioner:
   name: ansible
-
+  config_options:
+    defaults:
+      stdout_callback: debug
+  # playbooks:
+  #   prepare: prepare.yaml
+  env:
+    ANSIBLE_KEEP_REMOTE_FILES: 1  
+    
 verifier:
   name: testinfra

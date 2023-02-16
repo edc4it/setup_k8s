@@ -12,6 +12,7 @@ kubectx_version: "v0.9.4"
 kubens_version: "v0.9.4"
 kubectl_aliases_branch: "master"
 helm3_version: '3.9.2'
-k9s_version: "v0.26.3"
+kustomize_version: 'v5.0.0'
+k9s_version: "v0.27.3"
 kube_score_version: "1.14.0"
 kubeval_version: "v0.16.1"

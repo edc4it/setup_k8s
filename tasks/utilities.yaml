@@ -14,6 +14,15 @@
     creates: /usr/local/bin/kubens
   when:  kubens_version != "disabled"
 
+- name: install kustomize
+  ansible.builtin.unarchive:
+      dest: /usr/local/bin
+      src: "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F{{ kustomize_version }}/kustomize_{{ kustomize_version }}_linux_amd64.tar.gz"
+      include: kustomize
+      remote_src: yes
+      creates: /usr/local/bin/kustomize
+  when:  kustomize_version != "disabled"
+
 - name: install k9s
   ansible.builtin.unarchive:
       src: "https://github.com/derailed/k9s/releases/download/{{ k9s_version }}/k9s_Linux_x86_64.tar.gz"
@@ -44,7 +53,7 @@
 - name: install kubeval
   ansible.builtin.unarchive:
       dest: /usr/local/bin
-      src: "https://github.com/instrumenta/kubeval/releases/download/{{ kubeval_version }}/kubeval-linux-amd64.tar.gz"      
+      src: "https://github.com/instrumenta/kubeval/releases/download/{{ kubeval_version }}/kubeval-linux-amd64.tar.gz"
       include: kubeval
       remote_src: yes
       creates: /usr/local/bin/kubeval

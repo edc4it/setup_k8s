@@ -58,6 +58,35 @@
       creates: /usr/local/bin/kubeval
   when: kubeval_version != "disabled"
 
+- name: Install Krew
+  tags: krew
+  become_user: vagrant
+  block:
+      - name: Setting krew name
+        set_fact:
+            krew: krew-{{ ansible_system |lower }}_{{ "amd64" if ansible_architecture == "x86_64" else "arm64" if ansible_architecture == "arm64" else "" }}
+
+      - name: Download and Unarchive krew
+        unarchive:
+            src: https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew }}.tar.gz
+            dest: /tmp/
+            remote_src: yes
+            creates: /tmp/{{ krew }}
+
+      - name: Ensure krew is installed.
+        shell: |
+            /tmp/{{ krew }} install krew
+        args:
+            executable: /bin/bash
+            creates: "{{ user_info.home }}/.krew/bin/kubectl-krew"
+
+      - name: update .zshrc
+        lineinfile:
+            path: "{{ user_info.home }}/.zshrc"
+            line: 'export PATH="$HOME/.krew/bin:$PATH"'
+            state: present
+            insertbefore: '^export PATH='
+
 - name: install kubectl_aliases
   block:
     - name: "Get {{ user }} info"

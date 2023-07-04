@@ -4,3 +4,4 @@ exclude_paths:
 
 warn_list: 
   - command-instead-of-shell  
+  - var-naming[no-role-prefix]

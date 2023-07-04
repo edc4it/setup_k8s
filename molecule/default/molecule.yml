@@ -20,7 +20,5 @@ provisioner:
     prepare: ../resources/prepare.yml
     converge: ../resources/converge.yml
 
-
-
 verifier:
   name: testinfra

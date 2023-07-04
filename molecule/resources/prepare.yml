@@ -2,6 +2,7 @@
 - name: Install required software
   hosts: all
   tasks:
-   - ansible.builtin.package:
-       name:
-         - git
+    - name: Install git
+      ansible.builtin.package:
+        name:
+          - git

@@ -2,9 +2,9 @@
 - name: Converge
   hosts: all
   tasks:
-   - name:
-     ansible.builtin.import_role:
-       name: edc4it.setup_k8s
-     vars:
-       user: root
-       kubectl_version: "disabled"
+    - name: Converge the role
+      ansible.builtin.import_role:
+        name: edc4it.setup_k8s
+      vars:
+        user: root
+        kubectl_version: "disabled"

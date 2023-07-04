@@ -19,10 +19,11 @@ provisioner:
   config_options:
     defaults:
       stdout_callback: debug
-  # playbooks:
-  #   prepare: prepare.yaml
+  playbooks:
+    prepare: ../resources/prepare.yml
+    converge: ../resources/converge.yml
   env:
-    ANSIBLE_KEEP_REMOTE_FILES: 1  
-    
+    ANSIBLE_KEEP_REMOTE_FILES: 1
+
 verifier:
   name: testinfra

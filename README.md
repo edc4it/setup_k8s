@@ -24,3 +24,16 @@ kube_score_version: "1.14.0"
 
 ```
 
+## Local dev with Podman
+
+Make sure the molecule podman driver is installed:
+
+```shell
+$  python3 -m pip install ansible 'molecule-podman' ansible-lint yamllint testinfra
+```
+
+Run the test
+
+```shell
+$
+```

@@ -60,7 +60,6 @@
 
 - name: Install Krew
   tags: krew
-  become_user: vagrant
   block:
       - name: Setting krew name
         set_fact:
@@ -86,14 +85,10 @@
             line: 'export PATH="$HOME/.krew/bin:$PATH"'
             state: present
             insertbefore: '^export PATH='
+        ignore_errors: true
 
 - name: install kubectl_aliases
   block:
-    - name: "Get {{ user }} info"
-      ansible.builtin.user:
-        name: "{{ user }}"
-      register: user_info
-
     - name: "check {{ user_info.home }}/.kubectl_aliases"
       ansible.builtin.stat:
         path: "{{ user_info.home }}/.kubectl_aliases"

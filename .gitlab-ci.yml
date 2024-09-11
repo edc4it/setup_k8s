@@ -25,6 +25,6 @@ molecule:
   script:
     - molecule test
 
-rebuild-awx-rt:
+rebuild-awx-ee:
   stage: downstream
-  trigger: "publik/awx-ee"
+  trigger: "../../awx-ee"

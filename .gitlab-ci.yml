@@ -11,4 +11,4 @@ molecule:
 
 rebuild-awx-ee:
   stage: downstream
-  trigger: "../../awx-ee"
+  trigger: "cwdecks/delivery-management/awx/awx-ee"

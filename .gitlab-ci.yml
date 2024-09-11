@@ -12,3 +12,8 @@ molecule:
 rebuild-awx-ee:
   stage: downstream
   trigger: "cwdecks/delivery-management/awx/awx-ee"
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+ 
+
+

@@ -32,8 +32,8 @@ Make sure the molecule podman driver is installed:
 $  python3 -m pip install ansible 'molecule-podman' ansible-lint yamllint testinfra
 ```
 
-Run the test
+Run the test (using podman, remove `-s podman` for docker)
 
 ```shell
-$
+$ molecule test -s podman
 ```

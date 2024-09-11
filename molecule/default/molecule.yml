@@ -12,7 +12,7 @@ driver:
 
 platforms:
   - name: ansible_role_minikube_default
-    image: quay.io/centos/centos:stream8
+    image: quay.io/centos/centos:stream9
 
 provisioner:
   name: ansible

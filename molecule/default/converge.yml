@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: Converge the role
+      ansible.builtin.import_role:
+        name: edc4it.setup_k8s
+      vars:
+        user: student
+        kubectl_version: "disabled"
+        minikube_version: "disabled"
+        kubectx_version: "disabled"
+        kubens_version: "disabled"
+        helm3_version: "disabled"
+        kustomize_version: "disabled"
+        kube_score_version: "disabled"
+        kubeval_version: "disabled"
+#        krew: "disabled"
+#        kubectl_aliases_branch: "disabled"

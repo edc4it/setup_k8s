@@ -6,10 +6,7 @@
     - minikube
   when: minikube_version != "disabled"
 
-- name: "Get {{ user }} info"
-  ansible.builtin.user:
-    name: "{{ user }}"
-  register: user_info
+- import_tasks: ./init.yaml
 
 - name: install tools and utilities
   import_tasks: utilities.yaml

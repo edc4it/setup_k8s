@@ -1,0 +1,12 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  become: true
+  become_user: student
+  tasks:
+    - name: Check if a kubectl-krew is on the PATH
+      command: "command -v kubectl-krew"
+
+
+

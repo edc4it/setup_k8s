@@ -1,9 +1,10 @@
+---
 - name: install kubectl
   ansible.builtin.get_url:
-      dest: /usr/local/bin/kubectl
-      url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
-      mode: 0755
-  when:  kubectl_version != "disabled"
+    dest: /usr/local/bin/kubectl
+    url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+    mode: 0755
+  when: kubectl_version != "disabled"
 
 - name: install kubens
   ansible.builtin.unarchive:
@@ -12,24 +13,24 @@
     include: kubens
     remote_src: yes
     creates: /usr/local/bin/kubens
-  when:  kubens_version != "disabled"
+  when: kubens_version != "disabled"
 
 - name: install kustomize
   ansible.builtin.unarchive:
-      dest: /usr/local/bin
-      src: "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F{{ kustomize_version }}/kustomize_{{ kustomize_version }}_linux_amd64.tar.gz"
-      include: kustomize
-      remote_src: yes
-      creates: /usr/local/bin/kustomize
-  when:  kustomize_version != "disabled"
+    dest: /usr/local/bin
+    src: "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F{{ kustomize_version }}/kustomize_{{ kustomize_version }}_linux_amd64.tar.gz"
+    include: kustomize
+    remote_src: yes
+    creates: /usr/local/bin/kustomize
+  when: kustomize_version != "disabled"
 
 - name: install k9s
   ansible.builtin.unarchive:
-      src: "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz"
-      dest: /usr/local/bin
-      remote_src: yes
-      include: k9s
-      creates: /usr/local/bin/k9s
+    src: "https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz"
+    dest: /usr/local/bin
+    remote_src: yes
+    include: k9s
+    creates: /usr/local/bin/k9s
 
 - name: install kubectx
   ansible.builtin.unarchive:
@@ -38,56 +39,59 @@
     include: kubectx
     remote_src: yes
     creates: /usr/local/bin/kubectx
-  when:  kubectx_version != "disabled"
+  when: kubectx_version != "disabled"
 
 - name: install kube-score
   ansible.builtin.unarchive:
-      dest: /usr/local/bin
-      src: "https://github.com/zegl/kube-score/releases/download/v{{ kube_score_version }}/kube-score_{{ kube_score_version }}_linux_amd64.tar.gz"
-      include: kube-score
-      remote_src: yes
-      creates: /usr/local/bin/kube-score
+    dest: /usr/local/bin
+    src: "https://github.com/zegl/kube-score/releases/download/v{{ kube_score_version }}/kube-score_{{ kube_score_version }}_linux_amd64.tar.gz"
+    include: kube-score
+    remote_src: yes
+    creates: /usr/local/bin/kube-score
   when: kube_score_version != "disabled"
 
 - name: install kubeval
   ansible.builtin.unarchive:
-      dest: /usr/local/bin
-      src: "https://github.com/instrumenta/kubeval/releases/download/{{ kubeval_version }}/kubeval-linux-amd64.tar.gz"
-      include: kubeval
-      remote_src: yes
-      creates: /usr/local/bin/kubeval
+    dest: /usr/local/bin
+    src: "https://github.com/instrumenta/kubeval/releases/download/{{ kubeval_version }}/kubeval-linux-amd64.tar.gz"
+    include: kubeval
+    remote_src: yes
+    creates: /usr/local/bin/kubeval
   when: kubeval_version != "disabled"
 
 - name: Install Krew
   tags: krew
+  become: true
+  become_user: "{{ user }}"
+  when: krew != "disabled"
   block:
-      - name: Setting krew name
-        set_fact:
-            krew: krew-{{ ansible_system |lower }}_{{ "amd64" if ansible_architecture == "x86_64" else "arm64" if ansible_architecture == "arm64" else "" }}
+    - name: Setting krew name
+      set_fact:
+        krew: krew-{{ ansible_system |lower }}_{{ "amd64" if ansible_architecture == "x86_64" else "arm64" if ansible_architecture == "arm64" else "" }}
 
-      - name: Download and Unarchive krew
-        unarchive:
-            src: https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew }}.tar.gz
-            dest: /tmp/
-            remote_src: yes
-            creates: /tmp/{{ krew }}
+    - name: Download and Unarchive krew
+      unarchive:
+        src: https://github.com/kubernetes-sigs/krew/releases/latest/download/{{ krew }}.tar.gz
+        dest: /tmp/
+        remote_src: yes
+        creates: /tmp/{{ krew }}
 
-      - name: Ensure krew is installed.
-        shell: |
-            /tmp/{{ krew }} install krew
-        args:
-            executable: /bin/bash
-            creates: "{{ user_info.home }}/.krew/bin/kubectl-krew"
+    - name: Ensure krew is installed.
+      shell: |
+        /tmp/{{ krew }} install krew
+      args:
+        executable: /bin/bash
+        creates: "{{ user_info.home }}/.krew/bin/kubectl-krew"
 
-      - name: update .zshrc
-        lineinfile:
-            path: "{{ user_info.home }}/.zshrc"
-            line: 'export PATH="$HOME/.krew/bin:$PATH"'
-            state: present
-            insertbefore: '^export PATH='
-        ignore_errors: true
+    - name: add krew to PATH
+      lineinfile:
+        path: "{{ user_info.home }}/{{ user_shell_file }}"
+        line: 'export PATH="$HOME/.krew/bin:$PATH"'
+        state: present
 
 - name: install kubectl_aliases
+  become: true
+  become_user: "{{ user }}"
   block:
     - name: "check {{ user_info.home }}/.kubectl_aliases"
       ansible.builtin.stat:
@@ -96,13 +100,21 @@
 
     - name: install kubectl_aliases
       ansible.builtin.get_url:
-          url: "https://raw.githubusercontent.com/ahmetb/kubectl-aliases/{{ kubectl_aliases_branch }}/.kubectl_aliases"
-          dest: "{{ user_info.home }}/.kubectl_aliases"
-          owner: "{{ user }}"
-          group: "{{ user }}"
-          mode: 0600
+        url: "https://raw.githubusercontent.com/ahmetb/kubectl-aliases/{{ kubectl_aliases_branch }}/.kubectl_aliases"
+        dest: "{{ user_info.home }}/.kubectl_aliases"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0600
       when: not kubectl_aliases_stat.stat.exists
+
+    - name: add kubectl_aliases to profile
+      lineinfile:
+        path: "{{ user_info.home }}/{{ user_shell_file }}"
+        line: "[ -f ~/.kubectl_aliases ] && source ~/.kubectl_aliases"
+        state: present
+
   when: kubectl_aliases_branch != "disabled"
+
 
 
 - name: Install helm

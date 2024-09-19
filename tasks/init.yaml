@@ -1,0 +1,13 @@
+---
+- name: Get user's shell
+  ansible.builtin.user:
+    name: "{{ user }}"
+  register:  user_info
+
+- ansible.builtin.assert:
+    that: shell_map[user_info.shell] is defined
+    fail_msg: "shell not supported by role: {{ user_info.shell }}"
+
+- set_fact:
+    user_shell_file: "{{ shell_map[user_info.shell] }}"
+

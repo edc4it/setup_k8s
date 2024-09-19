@@ -15,3 +15,4 @@ helm3_version: '3.12.1'
 kustomize_version: 'v5.1.0'
 kube_score_version: "1.14.0"
 kubeval_version: "v0.16.1"
+krew: "enabled"

@@ -1,8 +1,0 @@
----
-- name: Install required software
-  hosts: all
-  tasks:
-    - name: Install git
-      ansible.builtin.package:
-        name:
-          - git

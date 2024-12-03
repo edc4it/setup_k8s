@@ -12,12 +12,17 @@
     user_shell_file: "{{ shell_map[user_info.shell] }}"
 
 
-- name: Ensure "{{ user_info.home }}/{{ user_shell_file }}" exists as "{{ user }}"
-  ansible.builtin.copy:
-    content: ''
-    dest: "{{ user_info.home }}/{{ user_shell_file }}"
-    owner: "{{ user }}"
-    group: "{{ user }}"
-    mode: '0644'
+- name: Ensure "{{ user_info.home }}/{{ user_shell_file }}" exists
   become: true
   become_user: "{{ user }}"
+  block:
+    - name: Check if "{{ user_info.home }}/{{ user_shell_file }}" exists
+      ansible.builtin.stat:
+        path: "{{ user_info.home }}/{{ user_shell_file }}"
+      register: file_stat
+
+    - name: Ensure "{{ user_info.home }}/{{ user_shell_file }}" exists as "{{ user }}"
+      ansible.builtin.file:
+        path: "{{ user_info.home }}/{{ user_shell_file }}"
+        state: touch
+      when: not file_stat.stat.exists

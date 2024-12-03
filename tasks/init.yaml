@@ -11,11 +11,13 @@
 - set_fact:
     user_shell_file: "{{ shell_map[user_info.shell] }}"
 
+
 - name: Ensure "{{ user_info.home }}/{{ user_shell_file }}" exists as "{{ user }}"
-  ansible.builtin.file:
-    path: "{{ user_info.home }}/{{ user_shell_file }}"
-    state: file
+  ansible.builtin.copy:
+    content: ''
+    dest: "{{ user_info.home }}/{{ user_shell_file }}"
     owner: "{{ user }}"
     group: "{{ user }}"
     mode: '0644'
   become: true
+  become_user: "{{ user }}"

@@ -83,11 +83,11 @@
         executable: /bin/bash
         creates: "{{ user_info.home }}/.krew/bin/kubectl-krew"
 
-    - name: add krew to PATH
-      lineinfile:
-        path: "{{ user_info.home }}/{{ user_shell_file }}"
-        line: 'export PATH="$HOME/.krew/bin:$PATH"'
-        state: present
+#    - name: add krew to PATH
+#      lineinfile:
+#        path: "{{ user_info.home }}/{{ user_shell_file }}"
+#        line: 'export PATH="$HOME/.krew/bin:$PATH"'
+#        state: present
 
 - name: install kubectl_aliases
   become: true

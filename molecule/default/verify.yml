@@ -4,17 +4,14 @@
   gather_facts: false
   become: true
   become_user: student
-  tasks:
-    -
-    - name: Check if a kubectl-krew is on the PATH
-      shell:
-        cmd: "source ~/.zshrc && command -v kubectl-krew"
-        executable: /bin/zsh
-      register: res
-#      become_flags: "-i"
-#      become_method: "sudo"
-    - debug:
-        var: res
+  tasks: []
+#    - name: Check if a kubectl-krew is on the PATH
+#      shell:
+#        cmd: "source ~/.zshrc && command -v kubectl-krew"
+#        executable: /bin/zsh
+#      register: res
+#    - debug:
+#        var: res
 
 
 

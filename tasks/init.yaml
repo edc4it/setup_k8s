@@ -4,6 +4,13 @@
     name: "{{ user }}"
   register:  user_info
 
+- name: Ensure "{{ user_info.home }}/{{ user_shell_file }}" exists as "{{ user }}"
+  ansible.builtin.file:
+    path: "{{ user_info.home }}/{{ user_shell_file }}"
+    state: touch
+  become: true
+  become_user: "{{ user }}"
+
 - ansible.builtin.assert:
     that: shell_map[user_info.shell] is defined
     fail_msg: "shell not supported by role: {{ user_info.shell }}"

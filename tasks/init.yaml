@@ -14,6 +14,8 @@
 - name: Ensure "{{ user_info.home }}/{{ user_shell_file }}" exists as "{{ user }}"
   ansible.builtin.file:
     path: "{{ user_info.home }}/{{ user_shell_file }}"
-    state: touch
+    state: file
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: '0644'
   become: true
-  become_user: "{{ user }}"
